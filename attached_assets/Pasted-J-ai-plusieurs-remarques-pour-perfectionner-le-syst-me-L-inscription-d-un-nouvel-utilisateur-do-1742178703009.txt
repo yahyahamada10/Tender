@@ -1,0 +1,101 @@
+J'ai plusieurs remarques pour perfectionner le système
+
+* L'inscription d'un nouvel utilisateur doit passé obligatoirement par une validation d'un administrateur local. pour cela merci de me créer un administrateur avec login : "Admin" et mot de passe "UY@jsh**" et qui a accès à tous les fonctionnalités et toute type de données
+* Ajouter au niveau de l'inscription une liste Direction juste avant département
+ A noter que il y a une liaison entre La Direction et Département
+ Exemple : les département Informatique , ressources humaine et financier sont rattachés à la Direction Direction Administrative et Finacière dont son abréviation est DAF 
+ 
+ 
+
+
+* pour les habilitations, merci de veiller que si un utilisateur est affecté à un département on ne lui donne jamais l'accès aux données des autres
+Idem pour un utilisateur est associé à une Direction , on donne à l'utilisateur l'accès aux données relatives à sa direction et les départements y afférentes
+
+* Renommer les roles suivants :
+- service Opérationnel en service Technique
+- service des Marchés en service des Marchés (passation)
+
+* Ajouter les rols suivants : 
+
+- Service des Marchés (Exécution)
+- Service Ordonnancement
+
+* Masquer le role suivant :
+- Controleur d'Etat
+
+
+* Si le role seléctionné superviseur / administrateur :
+Permettre à l'utilisateur de sélectionner uniquement la direction sans spécifier le département
+Si l'utilisateur sélectionne DG ou DAF , après la validation de son compte , l'utilisateur peut consulter l'exhaustivité de données
+
+
+
+
+* Merci de créer une rubrique qui concerne les projets et la placer avant le menu Tender, cette rubrique est gérée par les utilisateus ayant comme role service des marchés - passation, ce nouvel écran doit contenir les champs suivant :
+ - Identifiant du projet 
+ - Objet du projet
+ - Direction
+ - Département
+ - Date prévue de lancement
+ 
+* Au niveau de menu Tender, ajouter une liaison entre Tender et Projet en mettant une liste déroulante des projets 
+ 
+ 
+* Merci de créer une rubrique qui concerne les réceptions et les placer juste après menu ServiceOrder, cette rubrique est gérée par les utilisateus ayant comme role service technique, ce nouvel écran doit contenir les champs suivant :
+ - Identifiant de réception généré automatiquement
+ - Objet du réception
+ - Sélection du contrat : liste déroulante contient le numéro et l'objet du contract
+ - Sélection : Réception Partielle ou Réception Totale
+ - Date de Réception
+ 
+* Merci de créer une rubrique qui concerne les factures et les placer juste après menu Réception, cette rubrique est gérée par les utilisateus ayant comme role service marché - exécution, ce nouvel écran doit contenir les champs suivant :
+ - Identifiant de facture généré automatiquement
+ - Fournisseur
+ - Numéro de facture
+ - Objet de facture
+ - Sélection du contrat : liste déroulante contient le numéro et l'objet du contract
+- Sélection de réception : liste déroulante contient les réceptions du contrat sélectionné (facultatif)
+  - Date de facture
+ - Date de Réception de facture
+ 
+ 
+ 
+ * pour les statuts doit correspondre à l'état de l'appel d'offre (Trender)
+ 
+ - L'utilisateur (ayant comme role service technique) crée un nouvel d'offre => Statut : "Dossier AO Initié"
+ - une fois enregistré, l'utilisateur (ayant comme role service technique)  transmis l'appel d'offre au service des Marchés => Statut : "Dossier AO transmis au SM pour examen"
+ - une fois transmis au service des marchés,  l'utilisateur (ayant comme role service marchés - passation)  aura deux actions, soit transmis au Controleur d'état => Statut : "Dossier AO transmis au CE pour examen", soit rejeté => Statut : "Dossier de l'AO rejeté par SM"
+ - si le dossier d'AO est au statut "Dossier AO transmis au CE pour examen" l'utilisateur (ayant comme role service marchés - passation) aura deux actions, soit transmis à l'entité concerné pour révision => Statut : "Dossier AO révisé par CE", soit validé => Statut : "Dossier AO validé par CE" 
+ - si le dossier d'AO est au statut "Dossier AO révisé par CE"  L'utilisateur (ayant comme role service technique) intègre les remarques et soumis une nouvelle version => Statut : "Dossier AO transmis au SM pour vérification"
+ - une fois transmis au service des marchés,  l'utilisateur (ayant comme role service marchés - passation)  aura deux actions, soit transmis au Controleur d'état => Statut : "Dossier AO transmis au CE pour validation", soit rejeté => Statut : "Dossier de l'AO rejeté par SM"
+ - si le dossier d'AO est au statut "Dossier AO transmis au CE pour validation" l'utilisateur (ayant comme role service marchés - passation) aura deux actions, soit transmis à l'entité concerné pour révision => Statut : "Dossier AO révisé par CE", soit validé => Statut : "Dossier AO validé par CE" 
+ - si le dossier d'AO est au statut "Dossier AO validé par CE"  l'utilisateur (ayant comme role service marchés - passation) procède à la publication de l'AO => Statut : "AO Publié"
+ - si le dossier d'AO est au statut "AO Publié"  l'utilisateur (ayant comme role service marchés - passation) saisi une des deux options : fructueux ou infructueux de l'AO => Statut : "AO Fructueux" ou "AO Infructueux"
+ - si le dossier d'AO est au statut "AO Fructueux"  l'utilisateur (ayant comme role service marchés - passation) procède à l'attribution du marché => Statut : "Marché attribué" et crée automatiquement new contract 
+ - Si un nouvel ordre de service créé,  l'utilisateur (ayant comme role service marchés - passation) => Statut : "OS Notifié"
+ - L'utilisateur (ayant comme role service technique) crée une réception soit totale ou partielle => Statut : "Marché en cours de réception"
+ - si le Statut : "Marché en cours de réception",  l'utilisateur (ayant comme role service marchés - exécution) vérifie si la facture est déposée par le Fournisseur , si oui => Statut : "Marché Réceptionné partiellement" si la réception partielle ou Statut : "Marché Réceptionné totalement" si la réception totale si la facture n'est pas déposée => Statut : "Marché en attente de facture"
+ - si la facture est créé par l'utilisateur (ayant comme role service marchés - exécution) sans que la réception soit associé => Statut "En attente de PV de Réception"
+ - si le statut  "En attente de PV de Réception", L'utilisateur (ayant comme role service technique) procède à la création de Réception correspondante  => Statut : "Marché Réceptionné partiellement" si la réception partielle ou Statut : "Marché Réceptionné totalement" si la réception totale
+ - Statut : "Satisfaction du rejet de paiement", "Marché Réceptionné partiellement" ou "Marché Réceptionné totalement" , l'utilisateur (ayant comme role Service Ordonnancement) procède à l'ordonnancement , soit OK => "Ordonnancement Préparé" soit rejeté => Statut "Ordonnancement rejeté" 
+ -  Statut "Ordonnancement rejeté" permettre à l'utilisateur (ayant comme role service marchés - exécution) de répondre aux remarques soulevées => Statut : "Satisfaction du rejet de paiement"
+ 
+ 
+ * A changer ces statuts suivants par les statuts décrits auparavant :
+ Draft    Review     Published   Awarded  In Progress  Completed
+
+
+* Permettre la création directe d'un nouvel contract sans passer par un appel d'une API, "New Contract" est non fonctionnel *
+* ServiceOrder est non fonctionnel (voir capture)
+
+* Bouton Add user est non fonctionnel au niveau du menu User
+* Ajouter dans le menu Administration et juste après Users "Direction"
+* le menu Setting est page non found
+
+
+* Le volet REPORTS désactive le menu vertical que ce soit en cliquant sur "Analytics" ou "Reports"
+* au niveau du menu "Reports" ,le système m'affiche après clique sur "Générer le rapport" est bien effectué (voir 2ème capture) mais aucun fichier n'est généré
+
+
+Une dernière demande, si tu peux traduire l'ensemble des libellés en francais "Tender" en "Appel d'offres"
+Merci de vérifier que cette application est déjà lié à une base de données PostgreSQL 
